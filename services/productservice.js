@@ -20,8 +20,8 @@ exports.getproducts = asyncHandler(async (req, res) => {
 // @route     post  /api/v1/products
 // @access    private
 exports.createproduct = asyncHandler(async (req, res) => {
-  const { name } = req.body;
-  const product = await productmodel.create({ name, slug: slugify(name) });
+  req.body.slug = slugify(req.body.title);
+  const product = await productmodel.create(req.body);
   res.status(201).json({ data: product });
 });
 
@@ -42,12 +42,12 @@ exports.getproduct = asyncHandler(async (req, res, next) => {
 // @access    private
 exports.updateproduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { name } = req.body;
+  req.body.slug = slugify(req.body.title);
   const product = await productmodel.findOneAndUpdate(
     { _id: id },
-    { name, slug: slugify(name) },
-    { new: true }
-  );
+    req.body,
+    {new: true,}
+    );
   if (!product) {
     return next(new ApiError(`no product for this id ${id}`, 404));
   }

@@ -7,6 +7,7 @@ const dbconnection = require("./config/database");
 const categoryroute = require("./routes/categoryroute");
 const subcategoryroute = require('./routes/subcategoryroute');
 const brandroute = require("./routes/brandroute");
+const productroute =require('./routes/productroute');
 const ApiError = require("./utils/apiError");
 const globalError = require("./middlewares/errorMiddleware");
 //connect with db
@@ -26,7 +27,7 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/v1/categories", categoryroute);
 app.use("/api/v1/subcategories", subcategoryroute);
 app.use("/api/v1/brands",brandroute);
-
+app.use("/api/v1/products",productroute);
 app.all("*", (req, res, next) => {
   // const err = new Error(`Cant find the route: ${req.originalUrl}`);
   // next(err.message);
