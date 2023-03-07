@@ -43,7 +43,7 @@ const productschema = new mongoose.Schema(
       required: [true, "Product imageCover is required"],
     },
     category: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "category",
       required: [true, "Product must be belong to category"],
     },

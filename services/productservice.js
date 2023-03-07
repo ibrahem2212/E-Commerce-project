@@ -16,7 +16,7 @@ exports.getproducts = asyncHandler(async (req, res) => {
     .skip(skip)
     .limit(limit)
     .populate({ path: "category", select: "name -_id" })
-    .populate({ path: "subcategory", select: "name -_id" });
+    .populate({ path: "subcategories", select: "name -_id" });
   res.status(200).json({ results: products.length, page, data: products });
 });
 
