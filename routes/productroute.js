@@ -16,6 +16,8 @@ const {
 
 const router = express.Router();
 
+
+
 router.route("/").get(getproducts).post(createProductValidator, createproduct);
 router
   .route("/:id")

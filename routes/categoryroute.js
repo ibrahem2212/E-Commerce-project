@@ -18,8 +18,9 @@ const subcategoriesRoute=require('./subcategoryroute');
 
 const router=express.Router();
 
-router.use('/:categoryId/subcategories',subcategoriesRoute);
 
+
+router.use('/:categoryId/subcategories',subcategoriesRoute);
 router.route('/')
 .get(getcategories)
 .post(createCategoryValidator,createcategory);
