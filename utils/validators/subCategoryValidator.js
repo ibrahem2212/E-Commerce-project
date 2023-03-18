@@ -1,9 +1,8 @@
-const slugify = require("slugify");
-const { check, body } = require("express-validator");
+const { check } = require("express-validator");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
 
 exports.getSubCategoryValidator = [
-  check("id").isMongoId().withMessage("Invalid Subcategory id format"),
+  check("id").isMongoId().withMessage("Invalid SubCategory id format"),
   validatorMiddleware,
 ];
 
@@ -14,42 +13,17 @@ exports.createSubCategoryValidator = [
     .isLength({ min: 2 })
     .withMessage("Too short Subcategory name")
     .isLength({ max: 32 })
-    .withMessage("Too long Subcategory name")
-    .custom((val, { req }) => {
-      req.body.slug = slugify(val);
-      return true;
-    }),
-    
+    .withMessage("Too long Subcategory name"),
   check("category")
     .notEmpty()
-    .withMessage("subCategory must be belong to category")
+    .withMessage("SubCategory must be belong to a category")
     .isMongoId()
     .withMessage("Invalid Category id format"),
   validatorMiddleware,
 ];
 
-exports.updateCategoryValidator = [
-  check("id").isMongoId().withMessage("Invalid category id format"),
-  check("name")
-    .optional()
-    .custom((val, { req }) => {
-      req.body.slug = slugify(val);
-      return true;
-    }),
-  validatorMiddleware,
-];
-
-exports.deleteCategoryValidator = [
-  check("id").isMongoId().withMessage("Invalid category id format"),
-  validatorMiddleware,
-];
-
 exports.updateSubCategoryValidator = [
   check("id").isMongoId().withMessage("Invalid Subcategory id format"),
-  body("name").custom((val, { req }) => {
-    req.body.slug = slugify(val);
-    return true;
-  }),
   validatorMiddleware,
 ];
 
