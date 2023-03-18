@@ -1,31 +1,33 @@
 const express = require("express");
+
 const {
   createSubCategory,
-  getsubcategory,
-  getsubcategories,
-  updatesubcategory,
-  deletesubcategory,
-  setcategoryIdtobody,
-} = require("../services/subCategoryservice");
+  getSubCategory,
+  getSubCategories,
+  updateSubCategory,
+  deleteSubCategory,
+  setCategoryIdToBody,
+  createFilterObj,
+} = require("../services/subCategoryService");
 const {
-  getSubCategoryValidator,
   createSubCategoryValidator,
+  getSubCategoryValidator,
   updateSubCategoryValidator,
   deleteSubCategoryValidator,
 } = require("../utils/validators/subCategoryValidator");
-// const productroute=require('./productroute');
 
+//mergeParams: Allow us to access parameters on other routers
+//ex: We need to access categoryId from category router
 const router = express.Router({ mergeParams: true });
-// router.use('/:subcategoryId/products',productroute)
+
 router
   .route("/")
-  .post(setcategoryIdtobody, createSubCategoryValidator, createSubCategory)
-  .get(getsubcategories);
-
+  .post(setCategoryIdToBody, createSubCategoryValidator, createSubCategory)
+  .get(createFilterObj, getSubCategories);
 router
   .route("/:id")
-  .get(getSubCategoryValidator, getsubcategory)
-  .put(updateSubCategoryValidator, updatesubcategory)
-  .delete(deleteSubCategoryValidator, deletesubcategory);
+  .get(getSubCategoryValidator, getSubCategory)
+  .put(updateSubCategoryValidator, updateSubCategory)
+  .delete(deleteSubCategoryValidator, deleteSubCategory);
 
 module.exports = router;
