@@ -1,6 +1,6 @@
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
-const productmodel = require("../models/productModel");
+const Product = require("../models/productModel");
 const ApiError = require("../utils/apiError");
 const ApiFeatures = require("../utils/apiFeatures");
 //------------------------//--------------------------------//
@@ -22,8 +22,8 @@ exports.getproducts = asyncHandler(async (req, res) => {
   // const skip = (page - 1) * limit;
 
   // build query
-  const documentsCounts = await productmodel.countDocuments();
-  const apiFeatures = new ApiFeatures(productmodel.find(), req.query)
+  const documentsCounts = await Product.countDocuments();
+  const apiFeatures = new ApiFeatures(Product.find(), req.query)
     .paginate(documentsCounts)
     .filter()
     .search()
@@ -74,7 +74,7 @@ exports.getproducts = asyncHandler(async (req, res) => {
 // @access    private
 exports.createproduct = asyncHandler(async (req, res) => {
   req.body.slug = slugify(req.body.title);
-  const product = await productmodel.create(req.body);
+  const product = await Product.create(req.body);
   res.status(201).json({ data: product });
 });
 
@@ -83,7 +83,7 @@ exports.createproduct = asyncHandler(async (req, res) => {
 // @access    private
 exports.getproduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const product = await productmodel
+  const product = await Product
     .findById(id)
     .populate({ path: "category", select: "name -_id" })
     .populate({ path: "subcategories", select: "name -_id" });
@@ -101,7 +101,7 @@ exports.updateproduct = asyncHandler(async (req, res, next) => {
   if (req.body.title) {
     req.body.slug = slugify(req.body.title);
   }
-  const product = await productmodel.findOneAndUpdate({ _id: id }, req.body, {
+  const product = await Product.findOneAndUpdate({ _id: id }, req.body, {
     new: true,
   });
   if (!product) {
@@ -116,7 +116,7 @@ exports.updateproduct = asyncHandler(async (req, res, next) => {
 
 exports.deleteproduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const product = await productmodel.findByIdAndDelete({ _id: id });
+  const product = await Product.findByIdAndDelete({ _id: id });
   if (!product) {
     return next(new ApiError(`no product for this id ${id}`, 404));
   }
