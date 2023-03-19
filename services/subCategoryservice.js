@@ -9,11 +9,6 @@ exports.setCategoryIdToBody = (req, res, next) => {
   if (!req.body.category) req.body.category = req.params.categoryId;
   next();
 };
-// @desc      Create subcategory
-// @route     post  /api/v1/subcategories
-//@access Private
-
-exports.createSubCategory = factory.createOne(SubCategory);
 
 //Nested route
 //GET  /api/v1/categories/:categoryId/subcategories
@@ -28,38 +23,18 @@ exports.createFilterObj = (req, res, next) => {
 // @route     GET  /api/v1/subcategories
 // @access    Public
 
-exports.getSubCategories = asyncHandler(async (req, res) => {
-  // build query
-  const documentsCounts = await SubCategory.countDocuments();
-  const apiFeatures = new ApiFeatures(SubCategory.find(), req.query)
-    .paginate(documentsCounts)
-    .filter()
-    .search()
-    .limitFields()
-    .sort();
-
-  // execute query
-  const { mongooseQuery, paginationResult } = apiFeatures;
-  const subCategories = await mongooseQuery;
-
-  res.status(200).json({
-    results: subCategories.length,
-    paginationResult,
-    data: subCategories,
-  });
-});
+exports.getSubCategories = factory.getAll(SubCategory);
 
 // @desc      Get a specific subcategory by id
 // @route     Get  /api/v1/subcategories/:id
 // @access    public
-exports.getSubCategory = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const subCategory = await SubCategory.findById(id);
-  if (!subCategory) {
-    return next(new ApiError(`no subcategory for this id ${id}`, 404));
-  }
-  res.status(200).json({ data: subCategory });
-});
+exports.getSubCategory = factory.getOne(SubCategory);
+
+// @desc      Create subcategory
+// @route     post  /api/v1/subcategories
+//@access Private
+
+exports.createSubCategory = factory.createOne(SubCategory);
 
 // @desc      Update specific subcategory
 // @route     PUT  /api/v1/subcategories/:id
