@@ -1,4 +1,5 @@
-const { check } = require("express-validator");
+const { check, body } = require("express-validator");
+const slugify = require("slugify");
 const validatorMiddleware = require("../../middlewares/validatorMiddleware");
 const Category = require("../../models/categoryModel");
 const SubCategory = require("../../models/subCategoryModel");
@@ -8,7 +9,12 @@ exports.createProductValidator = [
     .isLength({ min: 3 })
     .withMessage("must be at least 3 chars")
     .notEmpty()
-    .withMessage("Product required"),
+    .withMessage("Product required")
+    .custom((val, { req }) => {
+      req.body.slug = slugify(val);
+      return true;
+    }),
+
   check("description")
     .notEmpty()
     .withMessage("Product description is required")
@@ -74,30 +80,8 @@ exports.createProductValidator = [
         (result) => {
           //Length result equal length of subcategories in body
           if (result.length < 1 || result.length !== subcategoriesIds.length) {
-            return Promise.reject(
-              new Error(`Invalid subcategories Ids`));
+            return Promise.reject(new Error(`Invalid subcategories Ids`));
           }
-<<<<<<< HEAD
-        })
-    )
-  .custom((val, { req }) =>
-    subcategory.find({ category: req.body.category }).then(
-      (subcategories) => {
-        const subCategoriesIdsInDB = [];
-        subcategories.forEach((subCategory) => {
-          subCategoriesIdsInDB.push(subCategory._id.toString());
-        });
-        // check if subcategories ids in db include subcategories in req.body (true)
-        const checker = (target, arr) => target.every((v) => arr.includes(v));
-        if (!checker(val, subCategoriesIdsInDB)) {
-          return Promise.reject(
-            new Error(`subcategories not belong to category`)
-          );
-        }
-      }
-    )
-  ),
-=======
         }
       )
     )
@@ -108,7 +92,7 @@ exports.createProductValidator = [
           subcategories.forEach((subCategory) => {
             subCategoriesIdsInDB.push(subCategory._id.toString());
           });
-          //check if subcategories ids in db include to subcategories in req.body(true/false)
+          // check if subcategories ids in db include subcategories in req.body (true)
           const checker = (target, arr) => target.every((v) => arr.includes(v));
           if (!checker(val, subCategoriesIdsInDB)) {
             return Promise.reject(
@@ -118,7 +102,6 @@ exports.createProductValidator = [
         }
       )
     ),
->>>>>>> b5f6a8c1a7843739a649a23d5e5418c1d4ebb342
   check("brand").optional().isMongoId().withMessage("Invalid ID formate"),
   check("ratingsAverage")
     .optional()
@@ -142,6 +125,12 @@ exports.getProductValidator = [
 
 exports.updateProductValidator = [
   check("id").isMongoId().withMessage("Invalid ID formate"),
+  body("title")
+    .optional()
+    .custom((val, { req }) => {
+      req.body.slug = slugify(val);
+      return true;
+    }),
   validatorMiddleware,
 ];
 

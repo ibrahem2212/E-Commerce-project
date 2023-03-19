@@ -1,13 +1,13 @@
-const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const ApiError = require("../utils/apiError");
 const ApiFeatures = require("../utils/apiFeatures");
+const factory = require("./handlersFactory");
 //------------------------//--------------------------------//
 // @desc      get list of products
 // @route     get  /api/v1/products
 // @access    public
-exports.getproducts = asyncHandler(async (req, res) => {
+exports.getProducts = asyncHandler(async (req, res) => {
   //1) Filtering
   // const queryStringObj = { ...req.query };
   // const excludeFields = ["page", "sort", "limit", "fields"];
@@ -26,7 +26,7 @@ exports.getproducts = asyncHandler(async (req, res) => {
   const apiFeatures = new ApiFeatures(Product.find(), req.query)
     .paginate(documentsCounts)
     .filter()
-    .search()
+    .search("products")
     .limitFields()
     .sort();
 
@@ -72,19 +72,14 @@ exports.getproducts = asyncHandler(async (req, res) => {
 // @desc      create product
 // @route     post  /api/v1/products
 // @access    private
-exports.createproduct = asyncHandler(async (req, res) => {
-  req.body.slug = slugify(req.body.title);
-  const product = await Product.create(req.body);
-  res.status(201).json({ data: product });
-});
+exports.createProduct = factory.createOne(Product);
 
 // @desc      get product by id
 // @route     get  /api/v1/products/:id
 // @access    private
-exports.getproduct = asyncHandler(async (req, res, next) => {
+exports.getProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const product = await Product
-    .findById(id)
+  const product = await Product.findById(id)
     .populate({ path: "category", select: "name -_id" })
     .populate({ path: "subcategories", select: "name -_id" });
   if (!product) {
@@ -96,29 +91,9 @@ exports.getproduct = asyncHandler(async (req, res, next) => {
 // @desc      update product by id
 // @route     put  /api/v1/products/:id
 // @access    private
-exports.updateproduct = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  if (req.body.title) {
-    req.body.slug = slugify(req.body.title);
-  }
-  const product = await Product.findOneAndUpdate({ _id: id }, req.body, {
-    new: true,
-  });
-  if (!product) {
-    return next(new ApiError(`no product for this id ${id}`, 404));
-  }
-  res.status(200).json({ data: product });
-});
+exports.updateProduct = factory.updateOne(Product);
 
 // @desc      delete product
 // @route     delete  /api/v1/products/:id
 // @access    private
-
-exports.deleteproduct = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const product = await Product.findByIdAndDelete({ _id: id });
-  if (!product) {
-    return next(new ApiError(`no product for this id ${id}`, 404));
-  }
-  res.status(204).send();
-});
+exports.deleteProduct = factory.deleteOne(Product);

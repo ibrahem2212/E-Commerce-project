@@ -13,10 +13,9 @@ const {
   updateCategory,
   deleteCategory,
 } = require("../services/categoryService");
-const subCategoryModel = require("../models/subCategoryModel");
+// const subCategory = require("../models/subCategoryModel");
 
-const subcategoriesRoute = require("./subCategoryRoute");
-
+const subcategoriesRoute = require("./subcategoryRoute");
 const router = express.Router();
 
 router.use("/:categoryId/subcategories", subcategoriesRoute);
