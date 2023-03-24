@@ -19,7 +19,6 @@
   },
   "scripts": {
     "start:dev": "nodemon server.js",
-    "dev": "nodemon server.js",
     "start:prod": "NODE_ENV=production node server.js"
   },
   "name": "nodejs-final-project",

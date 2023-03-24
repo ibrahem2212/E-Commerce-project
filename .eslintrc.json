@@ -16,6 +16,7 @@
     "no-undef": "error",
     "node/no-unsupported-features/es-syntax": "off",
     "import/no-extraneous-dependencies": "off",
+    "arrow-body-style": "warn",
     "prefer-destructuring": ["warn", { "object": true, "array": false }],
     "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }]
   }
