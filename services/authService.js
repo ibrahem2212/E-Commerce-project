@@ -56,9 +56,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
   if (!token) {
     return next(
-      new ApiError("You are not login, Please login to access this route",
-      401
-      )
+      new ApiError("You are not login, Please login to access this route", 401)
     );
   }
   // 2) Verify token (no change happens, expired token)
