@@ -36,7 +36,7 @@ exports.getBrands = factory.getAll(Brand);
 exports.getBrand = factory.getOne(Brand);
 // @desc      Create brand
 // @route     post  /api/v1/categories
-//@access Private
+// @access    Private
 
 exports.createBrand = factory.createOne(Brand);
 
