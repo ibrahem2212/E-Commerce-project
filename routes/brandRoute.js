@@ -14,7 +14,7 @@ const {
   deleteBrand,
   uploadBrandImage,
   resizeImage,
-} = require("../services/brandService");
+} = require("../services/brandservice");
 
 const authService = require("../services/authService");
 

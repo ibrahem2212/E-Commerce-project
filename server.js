@@ -9,10 +9,10 @@ const ApiError = require("./utils/apiError");
 const globalError = require("./middlewares/errorMiddleware");
 const dbConnection = require("./config/database");
 // Routes
-const categoryRoute = require("./routes/categoryRoute");
-const subCategoryRoute = require("./routes/subcategoryRoute");
+const categoryRoute = require("./routes/categoryroute");
+const subCategoryRoute = require("./routes/subcategoryroute");
 const brandRoute = require("./routes/brandRoute");
-const productRoute = require("./routes/productRoute");
+const productRoute = require("./routes/productroute");
 const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
 // Connect with db
