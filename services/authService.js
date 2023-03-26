@@ -159,10 +159,37 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     user.passwordResetVerified = undefined;
 
     await user.save();
-    return next(new ApiError('There is an error in sending email', 500));
+    return next(new ApiError("There is an error in sending email", 500));
   }
 
   res
     .status(200)
     .json({ status: "Success", message: "Reset code sent to email" });
+});
+
+// @desc    Verify password reset code
+// @route   POST /api/v1/auth/verifyResetCode
+// @access  Public
+exports.verifyPassResetCode = asyncHandler(async (req, res, next) => {
+  // 1) Get user based on reset code
+  const hashedResetCode = crypto
+    .createHash("sha256")
+    .update(req.body.resetCode)
+    .digest("hex");
+
+  const user = await User.findOne({
+    passwordResetCode: hashedResetCode,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+  if (!user) {
+    return next(new ApiError("Reset code invalid or expired"));
+  }
+
+  // 2) Reset code valid
+  user.passwordResetVerified = true;
+  await user.save();
+
+  res.status(200).json({
+    status: "Success",
+  });
 });
