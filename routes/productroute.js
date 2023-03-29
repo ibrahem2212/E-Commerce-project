@@ -14,10 +14,13 @@ const {
   deleteProduct,
   uploadProductImages,
   resizeProductImages,
-} = require("../services/productservice");
+} = require("../services/productService");
 const authService = require("../services/authService");
+const reviewRoute = require("./reviewRoute");
 
 const router = express.Router();
+router.use("/:productId/reviews", reviewRoute);
+
 router
   .route("/")
   .get(getProducts)

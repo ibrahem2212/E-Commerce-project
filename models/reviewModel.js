@@ -26,10 +26,10 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// reviewSchema.pre(/^find/, function (next) {
-//   this.populate({ path: 'user', select: 'name' });
-//   next();
-// });
+reviewSchema.pre(/^find/, function (next) {
+  this.populate({ path: "user", select: "name" });
+  next();
+});
 
 // reviewSchema.statics.calcAverageRatingsAndQuantity = async function (
 //   productId
@@ -71,4 +71,4 @@ const reviewSchema = new mongoose.Schema(
 //   await this.constructor.calcAverageRatingsAndQuantity(this.product);
 // });
 
-module.exports = mongoose.model("Review", reviewSchema);
+module.exports = mongoose.model("review", reviewSchema);

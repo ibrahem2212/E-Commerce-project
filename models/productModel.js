@@ -57,6 +57,10 @@ const productschema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "brand",
     },
+    review: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "review",
+    },
     ratingsAverage: {
       type: Number,
       min: [1, "rating must be above or equal 1.0"],
@@ -67,8 +71,18 @@ const productschema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: true }
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    timestamps: true,
+  }
 );
+productschema.virtual("reviews", {
+  ref: "review",
+  foreignField: "product",
+  localField: "_id",
+});
+
 productschema.pre(/^find/, function (next) {
   this.populate({
     path: "category",
