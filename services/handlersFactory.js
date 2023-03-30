@@ -11,7 +11,7 @@ exports.deleteOne = (Model) =>
       return next(new ApiError(`No document for this id ${id}`, 404));
     }
     // Trigger "remove" event when update document
-    // document.remove();
+    document.remove();
     res.status(204).send();
   });
 
@@ -27,7 +27,7 @@ exports.updateOne = (Model) =>
       );
     }
     // Trigger "save" event when update document
-    // document.save();
+    document.save();
     res.status(200).json({ data: document });
   });
 

@@ -26,16 +26,16 @@ const setImageURL = (doc) => {
   }
 };
 // findOne, findAll and update
-categorySchema.post('init', (doc) => {
+categorySchema.post("init", (doc) => {
   setImageURL(doc);
 });
 
 // create
-categorySchema.post('save', (doc) => {
+categorySchema.post("save", (doc) => {
   setImageURL(doc);
 });
 
 //2- Create model
-const CategoryModel = mongoose.model("category", categorySchema);
+const CategoryModel = mongoose.model("Category", categorySchema);
 
 module.exports = CategoryModel;

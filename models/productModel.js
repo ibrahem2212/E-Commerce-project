@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const productschema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -12,7 +12,7 @@ const productschema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      lowerCase: true,
+      lowercase: true,
     },
     description: {
       type: String,
@@ -37,34 +37,32 @@ const productschema = new mongoose.Schema(
       type: Number,
     },
     colors: [String],
-    images: [String],
+
     imageCover: {
       type: String,
-      required: [true, "Product imageCover is required"],
+      required: [true, "Product Image cover is required"],
     },
+    images: [String],
     category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "category",
+      type: mongoose.Schema.ObjectId,
+      ref: "Category",
       required: [true, "Product must be belong to category"],
     },
     subcategories: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "subcategory",
+        type: mongoose.Schema.ObjectId,
+        ref: "SubCategory",
       },
     ],
     brand: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "brand",
-    },
-    review: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "review",
+      type: mongoose.Schema.ObjectId,
+      ref: "Brand",
     },
     ratingsAverage: {
       type: Number,
-      min: [1, "rating must be above or equal 1.0"],
-      max: [5, "rating must be below or equal 5.0"],
+      min: [1, "Rating must be above or equal 1.0"],
+      max: [5, "Rating must be below or equal 5.0"],
+      // set: (val) => Math.round(val * 10) / 10, // 3.3333 * 10 => 33.333 => 33 => 3.3
     },
     ratingsQuantity: {
       type: Number,
@@ -72,24 +70,28 @@ const productschema = new mongoose.Schema(
     },
   },
   {
+    timestamps: true,
+    // to enable virtual populate
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-    timestamps: true,
   }
 );
-productschema.virtual("reviews", {
-  ref: "review",
+
+productSchema.virtual("reviews", {
+  ref: "Review",
   foreignField: "product",
   localField: "_id",
 });
 
-productschema.pre(/^find/, function (next) {
+// Mongoose query middleware
+productSchema.pre(/^find/, function (next) {
   this.populate({
     path: "category",
     select: "name -_id",
   });
   next();
 });
+
 const setImageURL = (doc) => {
   if (doc.imageCover) {
     const imageUrl = `${process.env.BASE_URL}/products/${doc.imageCover}`;
@@ -105,13 +107,13 @@ const setImageURL = (doc) => {
   }
 };
 // findOne, findAll and update
-productschema.post("init", (doc) => {
+productSchema.post("init", (doc) => {
   setImageURL(doc);
 });
 
 // create
-productschema.post("save", (doc) => {
+productSchema.post("save", (doc) => {
   setImageURL(doc);
 });
 
-module.exports = mongoose.model("product", productschema);
+module.exports = mongoose.model("Product", productSchema);
