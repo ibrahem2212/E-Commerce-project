@@ -15,11 +15,11 @@ const {
   deleteCategory,
   uploadCategoryImage,
   resizeImage,
-} = require("../services/categoryService");
+} = require("../services/categoryservice");
 
 const authService = require("../services/authService");
 
-const subcategoriesRoute = require("./subcategoryroute");
+const subcategoriesRoute = require("./subCategoryRoute");
 
 const router = express.Router();
 
