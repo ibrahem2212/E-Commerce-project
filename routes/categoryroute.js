@@ -15,7 +15,7 @@ const {
   deleteCategory,
   uploadCategoryImage,
   resizeImage,
-} = require("../services/categoryservice");
+} = require("../services/categoryService");
 
 const authService = require("../services/authService");
 

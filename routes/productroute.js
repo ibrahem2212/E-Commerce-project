@@ -14,7 +14,7 @@ const {
   deleteProduct,
   uploadProductImages,
   resizeProductImages,
-} = require("../services/productservice");
+} = require("../services/productService");
 const authService = require("../services/authService");
 const reviewRoute = require("./reviewRoute");
 
