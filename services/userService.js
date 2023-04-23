@@ -7,7 +7,7 @@ const ApiError = require("../utils/apiError");
 const factory = require("./handlersFactory");
 const { uploadSingleImage } = require("../middlewares/uploadImageMiddleware");
 const User = require("../models/userModel");
-const createToken=require('../utils/createToken');
+const createToken = require("../utils/createToken");
 
 //Upload single image
 exports.uploadUserImage = uploadSingleImage("profileImg");
