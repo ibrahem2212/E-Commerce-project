@@ -18,9 +18,9 @@ dbConnection();
 
 // express app
 const app = express();
-app.use(cors());
-app.options("*", cors());
-app.use(compression());
+// app.use(cors());
+// app.options("*", cors());
+// app.use(compression());
 
 // Middlewares
 app.use(express.json());

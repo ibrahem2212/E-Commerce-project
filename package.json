@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start:dev": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production& node server.js"
+    "start": "SET NODE_ENV=production& node server.js"
   },
   "name": "nodejs-final-project",
   "version": "1.0.0",
@@ -41,5 +41,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "^2.8.4"
+  },
+  "engines": {
+    "node": "18.12.1"
   }
 }

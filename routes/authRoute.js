@@ -8,7 +8,7 @@ const {
   login,
   forgotPassword,
   verifyPassResetCode,
-  resetPassword
+  resetPassword,
 } = require("../services/authService");
 
 const router = express.Router();
@@ -18,6 +18,5 @@ router.post("/login", loginValidator, login);
 router.post("/forgotPassword", forgotPassword);
 router.post("/verifyResetCode", verifyPassResetCode);
 router.put("/resetPassword", resetPassword);
-
 
 module.exports = router;
