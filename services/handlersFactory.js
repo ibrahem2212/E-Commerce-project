@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
+const { Model } = require("mongoose");
 const ApiError = require("../utils/apiError");
 const ApiFeatures = require("../utils/apiFeatures");
+
 
 exports.deleteOne = (Model) =>
   asyncHandler(async (req, res, next) => {
@@ -79,3 +81,5 @@ exports.getAll = (Model, modelName = "") =>
       .status(200)
       .json({ results: documents.length, paginationResult, data: documents });
   });
+
+////////////////////////

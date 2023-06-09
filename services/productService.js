@@ -61,12 +61,22 @@ exports.getProducts = factory.getAll(Product, "Products");
 // @desc    Get specific product by id
 // @route   GET /api/v1/products/:id
 // @access  Public
-exports.getProduct = factory.getOne(Product,'reviews');
+exports.getProduct = factory.getOne(Product, "reviews");
 
 // @desc    Create product
 // @route   POST  /api/v1/products
 // @access  Private
 exports.createProduct = factory.createOne(Product);
+/*
+exports.createOne = (Model) =>
+  asyncHandler(async (req, res) => {
+    const newDoc = await Model.create(req.body);
+    res.status(201).json({ data: newDoc });
+  });
+
+  
+  */
+
 // @desc    Update specific product
 // @route   PUT /api/v1/products/:id
 // @access  Private
@@ -76,3 +86,6 @@ exports.updateProduct = factory.updateOne(Product);
 // @route   DELETE /api/v1/products/:id
 // @access  Private
 exports.deleteProduct = factory.deleteOne(Product);
+// @desc    recommendation product
+// @route   Get http://tonymalak222.pythonanywhere.com/?data={id}
+// @access  public
