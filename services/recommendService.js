@@ -12,8 +12,8 @@ exports.getRecommend = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
 
   //-------------- 2) fetch recommendation api -----------------------
-  const firstAPIUrl = `http://tonymalak222.pythonanywhere.com/?data=646f805e60ecfa94727794c2`;
-  // const firstAPIUrl = `http://tonymalak222.pythonanywhere.com/?data=${id}`;
+  //   const firstAPIUrl = `http://tonymalak222.pythonanywhere.com/?data=646f805e60ecfa94727794c2`;
+  const firstAPIUrl = `http://tonymalak222.pythonanywhere.com/?data=${id}`;
 
   const response = await axios.get(firstAPIUrl);
   const productIds = response.data.res;
