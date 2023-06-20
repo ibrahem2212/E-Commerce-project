@@ -1,10 +1,5 @@
 const express = require("express");
-// const {
-//   getProductValidator,
-//   createProductValidator,
-//   updateProductValidator,
-//   deleteProductValidator,
-// } = require('../utils/validators/productValidator');
+
 const {getLoggedUserData} =require('../services/userService');
 
 const { getRecommend } = require("../services/recommendService");
