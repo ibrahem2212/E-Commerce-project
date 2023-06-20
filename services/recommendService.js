@@ -10,10 +10,10 @@ const ApiError = require("../utils/apiError");
 exports.getRecommend = asyncHandler(async (req, res, next) => {
   //-------------- 1) find logged user to get id ---------------------
 
-  const id = req.user._id;
+  // const id = req.user._id;
   //-------------- 2) fetch recommendation api -----------------------
 
-  const firstAPIUrl = `http://tonymalak222.pythonanywhere.com/?data=${id}`;
+  const firstAPIUrl = `http://tonymalak222.pythonanywhere.com/?data=64243b44a1260ba3863a5a6b`;
 
   const response = await axios.get(firstAPIUrl);
   const productIds = response.data.res;
